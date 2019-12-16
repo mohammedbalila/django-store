@@ -21,7 +21,7 @@ class Category(models.Model):
     name = models.CharField("name", max_length=50)
 
     class Meta:
-        ordering = ("name")
+        ordering = ("name", )
         verbose_name_plural = "categories"
 
     def __str__(self):
@@ -34,7 +34,7 @@ class SubCategory(models.Model):
                                  related_name="sub_categories")
 
     class Meta:
-        ordering = ("name")
+        ordering = ("name", )
         verbose_name_plural = "sub categories"
 
     def __str__(self):
