@@ -10,11 +10,11 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 """ Cart """
 class CartSerializer(serializers.ModelSerializer):
-    items = CartItemSerializer(many=True, read_only=True)
+    items = CartItemSerializer(many=True)
 
     class Meta:
         model = models.Cart
-        fields = ("id", "user", "create_at", "is_purchased", "purchase_date")
+        fields = ("id", "user", "created_at", "is_purchased", "purchase_date", 'items')
 
 """User """
 class UserSerializer(serializers.ModelSerializer):

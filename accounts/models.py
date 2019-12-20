@@ -7,7 +7,7 @@ class Cart(models.Model):
                              related_name="carts", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
     is_purchased = models.BooleanField(default=False)
-    purchase_date = models.DateTimeField()
+    purchase_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         ordering = ["created_at"]
