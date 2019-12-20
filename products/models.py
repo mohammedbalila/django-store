@@ -7,6 +7,7 @@ class Product(models.Model):
     price = models.FloatField("price")
     quantity = models.PositiveIntegerField("quantity", default=0)
     sold = models.PositiveIntegerField("sold", default=0)
+    image = models.ImageField(upload_to='products/', blank=True)
     date_added = models.DateTimeField("date added", auto_now_add=True)
     category = models.ForeignKey("products.Category", models.CASCADE,
                                  related_name="products")
