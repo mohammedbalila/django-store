@@ -1,6 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
+
+class CustomUser(AbstractUser):
+    phone = models.CharField(max_length=15, blank=True)
 
 class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

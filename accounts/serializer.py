@@ -1,5 +1,5 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from . import models
 
 """ Cart item """
@@ -19,5 +19,5 @@ class CartSerializer(serializers.ModelSerializer):
 """User """
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ("id", "username", "email")
+        model = models.CustomUser
+        fields = ("id", "username", "email", 'phone')

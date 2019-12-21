@@ -11,16 +11,16 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+env = os.environ
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'u)8)x$1u(mus^$r(o5--f*sk5)%3ica3v&2mozqvy-zgb-ck_+'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', 'u)8)x$1umus^$r(o5--f*sk5%3ica3v&2mozqvy-zgb-ck_+')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'accounts',
-    'products'
+    'products',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +55,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'store.urls'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 TEMPLATES = [
     {
@@ -74,20 +75,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'store.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DATABASE_NAME', 'd3trq6vdjek5rv'),
+        'USER': os.environ.get('DATABASE_USER', 'fogfvvochmpkzc'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', '3be07a7a24fbbe61216bbc08492051ea96175c5cc6a8f41dc064ce562db4b4bb'),
+        'HOST': os.environ.get('DATABASE_HOST', 'ec2-107-21-235-87.compute-1.amazonaws.com'),
+        'PORT': 5432
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {

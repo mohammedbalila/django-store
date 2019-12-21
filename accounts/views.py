@@ -4,12 +4,12 @@ from . import serializer, models
 
 
 class UserListView(generics.ListAPIView):
-    queryset = User.objects.all()
+    queryset = models.CustomUser.objects.all()
     serializer_class = serializer.UserSerializer
 
 
 class UserDeatilView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
+    queryset = models.CustomUser.objects.all()
     serializer_class = serializer.UserSerializer
 
 
