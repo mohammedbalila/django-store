@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'rest_framework',
+    'allauth',
+    'allauth.account',
 
     'accounts',
     'products',
@@ -56,6 +59,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'store.urls'
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 TEMPLATES = [
     {
