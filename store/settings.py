@@ -40,8 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
+    'corsheaders',
 
     'accounts',
     'products',
@@ -50,6 +55,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -61,12 +67,33 @@ ROOT_URLCONF = 'store.urls'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 SITE_ID = 1
+
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+REST_USE_JWT = True
+JWT_AUTH = {
+    'JWT_PAYLOAD_HANDLER': 'accounts.utils.jwt_payload',
+    'JWT_ENCODE_HANDLER': 'accounts.utils.jwt_encode_handler',
+    'JWT_DECODE_HANDLER': 'accounts.utils.jwt_decode_handler',
+}
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'accounts.serializer.UserSerializer',
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializer.UserRegisterSerializer'
+}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:4200",
+    "http://localhost:8080",
+    "http://127.0.0.1:8000"
+]
 
 TEMPLATES = [
     {
@@ -85,7 +112,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'store.wsgi.application'
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -94,6 +121,13 @@ DATABASES = {
         'PASSWORD': os.environ.get('DATABASE_PASSWORD', '3be07a7a24fbbe61216bbc08492051ea96175c5cc6a8f41dc064ce562db4b4bb'),
         'HOST': os.environ.get('DATABASE_HOST', 'ec2-107-21-235-87.compute-1.amazonaws.com'),
         'PORT': 5432
+    }
+}
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -113,7 +147,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'accounts.authentication.CustomJWTAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 15,
 }
 
 LANGUAGE_CODE = 'en-us'
