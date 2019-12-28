@@ -12,8 +12,11 @@
 
 ### Running test
 
->./manage.py test
+>python manage.py test
 
 ### Running the development server
 
->./manage.py runserver
+>python manage.py runserver
+
+### If you're using docker
+> docker-compose up
