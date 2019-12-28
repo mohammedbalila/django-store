@@ -3,7 +3,9 @@
 ### Virtual enviroment
 
 >pip install virtualenv
+
 >virtualenv path/to/create/enviroment
+
 >source /path/to/ENV/bin/activate
 
 ### Install packages
