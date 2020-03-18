@@ -4,6 +4,7 @@ from django.conf import settings
 
 
 class CustomUser(AbstractUser):
+    email = models.EmailField("email", db_index=True, max_length=254)
     phone = models.CharField(max_length=15, blank=True)
 
 class Cart(models.Model):

@@ -20,7 +20,7 @@ class Product(models.Model):
 
 class Category(models.Model):
     name = models.CharField("name", max_length=50)
-
+    image = models.ImageField(upload_to="categories/")
     class Meta:
         ordering = ("name", )
         verbose_name_plural = "categories"
