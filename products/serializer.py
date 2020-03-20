@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from . import models
@@ -31,11 +32,16 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Review
         fields = ("id", "user", "product", "user_info", "comment",
-                  "rateing", "up_votes", "down_votes")
+                  "rating", "up_votes", "down_votes")
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    # reviews = serializers.PrimaryKeyRelatedField(read_only=True)
+    reviews = serializers.SerializerMethodField()
+
+    def get_reviews(self, obj):
+        reviews = models.Review.objects.filter(product=obj.id)
+        review = reviews.aggregate(Avg("rating"))
+        return {"count": len(reviews), "rating": review["rating__avg"]}
 
     class Meta:
         model = models.Product

@@ -47,7 +47,7 @@ class Review(models.Model):
     user = models.ForeignKey(
         "accounts.CustomUser", related_name="reviews", on_delete=models.CASCADE)
     comment = models.TextField()
-    rateing = models.FloatField()
+    rating = models.FloatField()
     up_votes = models.IntegerField(
         verbose_name="upVotes", default=0, blank=True)
     down_votes = models.IntegerField(
