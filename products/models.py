@@ -21,6 +21,7 @@ class Product(models.Model):
 class Category(models.Model):
     name = models.CharField("name", max_length=50)
     image = models.ImageField(upload_to="categories/")
+
     class Meta:
         ordering = ("name", )
         verbose_name_plural = "categories"
@@ -40,3 +41,16 @@ class SubCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Review(models.Model):
+    user = models.ForeignKey(
+        "accounts.CustomUser", related_name="reviews", on_delete=models.CASCADE)
+    comment = models.TextField()
+    rateing = models.FloatField()
+    up_votes = models.IntegerField(
+        verbose_name="upVotes", default=0, blank=True)
+    down_votes = models.IntegerField(
+        verbose_name="downVotes", default=0, blank=True)
+    product = models.ForeignKey(
+        "products.Product", related_name="reviews", on_delete=models.CASCADE)

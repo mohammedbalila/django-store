@@ -40,3 +40,18 @@ class SubCategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (custom_permissions.IsAdmin,)
     queryset = models.SubCategory.objects.all()
     serializer_class = serializer.SubCategorySerializer
+
+
+class ReviewList(generics.ListCreateAPIView):
+    pagination_class = None
+    serializer_class = serializer.ReviewSerializer
+
+    def get_queryset(self):
+        queryset = models.Review.objects.filter(
+            product=self.kwargs['product_pk'])
+        return queryset
+
+
+class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Review.objects.all()
+    serializer_class = serializer.ReviewSerializer
