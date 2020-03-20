@@ -25,7 +25,7 @@ class CategoryList(generics.ListCreateAPIView):
 
 
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (custom_permissions.IsAdmin,)
+    permission_classes = (custom_permissions.IsUserOrAdminOrReadOnly, )
     queryset = models.Category.objects.all()
     serializer_class = serializer.CategorySerializer
 
