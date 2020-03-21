@@ -94,12 +94,15 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+"""
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:4200",
     "http://localhost:8080",
     "http://127.0.0.1:8000"
 ]
+"""
 
+CORS_ORIGIN_ALLOW_ALL = True # temp
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
