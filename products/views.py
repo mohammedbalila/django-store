@@ -9,7 +9,7 @@ class ProductListView(generics.ListCreateAPIView):
     queryset = models.Product.objects.all().order_by("-sold")
     serializer_class = serializer.ProductSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['category', 'sub_category']
+    filterset_fields = ['name', 'category', 'sub_category']
 
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
