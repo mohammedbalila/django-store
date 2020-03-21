@@ -35,8 +35,24 @@ class ReviewSerializer(serializers.ModelSerializer):
                   "rating", "up_votes", "down_votes")
 
 
+class DiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Discount
+        fields = "__all__"
+
+
 class ProductSerializer(serializers.ModelSerializer):
     reviews = serializers.SerializerMethodField()
+    discount_info = serializers.SerializerMethodField()
+
+    def get_discount_info(self, obj):
+        if obj.discount:
+            discount = models.Discount.objects.get(pk=obj.discount.id)
+            return {
+                "expiresAt": discount.expires_at,
+                "percentage": discount.percentage}
+        else:
+            return {}
 
     def get_reviews(self, obj):
         reviews = models.Review.objects.filter(product=obj.id)
@@ -45,4 +61,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Product
+        fields = "__all__"
+
+
+class DiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Discount
         fields = "__all__"

@@ -7,8 +7,10 @@ class Product(models.Model):
     price = models.FloatField("price")
     quantity = models.PositiveIntegerField("quantity", default=0)
     sold = models.PositiveIntegerField("sold", default=0)
-    image = models.ImageField(upload_to='products/', blank=True)
+    image = models.ImageField(upload_to="products/", blank=True)
     date_added = models.DateTimeField("date added", auto_now_add=True)
+    discount = models.ForeignKey("products.Discount",
+                                 related_name="products", on_delete=models.CASCADE, null=True)
     category = models.ForeignKey("products.Category", models.CASCADE,
                                  related_name="products")
     sub_category = models.ForeignKey("products.SubCategory", models.CASCADE,
@@ -16,6 +18,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ("sold",)
 
 
 class Category(models.Model):
@@ -54,3 +59,20 @@ class Review(models.Model):
         verbose_name="downVotes", default=0, blank=True)
     product = models.ForeignKey(
         "products.Product", related_name="reviews", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{} {}".format(self.user.username, self.rating)
+
+    # class Meta:
+    #     unique_together = ["user", "product"]
+
+
+class Discount(models.Model):
+    percentage = models.FloatField()
+    expires_at = models.DateTimeField()
+
+    def __str__(self):
+        return "{} - {}".format(self.pk, self.percentage)
+
+    class Meta:
+        ordering = ("-pk",)

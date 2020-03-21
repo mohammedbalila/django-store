@@ -6,7 +6,7 @@ from . import serializer, models, permissions as custom_permissions
 class ProductListView(generics.ListCreateAPIView):
     permission_classes = [
         custom_permissions.permissions.IsAuthenticatedOrReadOnly, ]
-    queryset = models.Product.objects.all()
+    queryset = models.Product.objects.all().order_by("-sold")
     serializer_class = serializer.ProductSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['category', 'sub_category']
@@ -55,3 +55,19 @@ class ReviewList(generics.ListCreateAPIView):
 class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Review.objects.all()
     serializer_class = serializer.ReviewSerializer
+
+
+class DiscountList(generics.ListCreateAPIView):
+    serializer_class = serializer.DiscountSerializer
+    queryset = models.Discount.objects.all()
+
+
+class DiscountDetailView(generics.ListAPIView):
+    # queryset = models.Discount.objects.all()
+    serializer_class = serializer.ProductSerializer
+    lookup_field = "discount_id"
+
+    def get_queryset(self):
+        queryset = models.Product.objects.filter(
+            discount=self.kwargs["discount_id"])
+        return queryset

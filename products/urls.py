@@ -11,6 +11,11 @@ urlpatterns = [
          name="product-reviews"),
     path("products/<int:product_pk>/reviews/<int:pk>/", views.ReviewDetailView.as_view(),
          name="product-reviews"),
+    # discounts
+    path("discounts/", views.DiscountList.as_view(),
+         name="discount-list"),
+    path("discounts/<int:discount_id>/", views.DiscountDetailView.as_view(),
+         name="discount-deatil"),
     # categories
     path('categories/', views.CategoryList.as_view(), name='category-list'),
     path('categories/<int:pk>/', views.CategoryDetailView.as_view(),
